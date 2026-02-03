@@ -17,6 +17,13 @@ function Home({ }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [timer, setTimer] = useState(15);
 
+  // Fonction car l'api retourne des chaine de charactères encodées
+  const decodeHTML = (text) => {
+    const textArea = document.createElement('textarea');
+    textArea.innerHTML = text;
+    return textArea.value;
+  };
+
   const onStartQuiz = (settings) => {
     setLoading(true);
     setQuizStarted(true);
@@ -28,10 +35,10 @@ function Home({ }) {
       .then((data) => {
         if (data.results && data.results.length > 0) {
           const preparedQuestions = data.results.map((q) => ({
-            question: q.question,
-            correct_answer: q.correct_answer,
-            incorrect_answers: q.incorrect_answers,
-            allAnswers: [q.correct_answer, ...q.incorrect_answers].sort(() => Math.random() - 0.5)
+            question: decodeHTML(q.question),
+            correct_answer: decodeHTML(q.correct_answer),
+            incorrect_answers: q.incorrect_answers.map(ans => decodeHTML(ans)),
+            allAnswers: [decodeHTML(q.correct_answer), ...q.incorrect_answers.map(ans => decodeHTML(ans))].sort(() => Math.random() - 0.5)
           }));
 
           setQuestions(preparedQuestions);

@@ -62,7 +62,7 @@ function QuizForm({ onStartQuiz }) {
                     value={difficulty}
                     onChange={(event) => setDifficulty(event.target.value)}
                 >
-                    <option value=""> </option>
+                    <option value="">Toutes difficultés</option>
                     <option value="easy">Facile</option>
                     <option value="medium">Moyen</option>
                     <option value="hard">Difficile</option>
