@@ -1,8 +1,8 @@
-function ShowError({ restartQuiz }) {
+function ShowError({ restartQuiz, errorMessage }) {
     return (
         <div className="show-error">
             <h2>Une erreur est survenue.</h2>
-            <p>Veuillez réessayer plus tard.</p>
+            <p>{errorMessage}</p>
             <button onClick={restartQuiz}>Recommencer</button>
         </div>
     );

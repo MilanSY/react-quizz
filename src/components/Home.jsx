@@ -3,7 +3,7 @@ import QuizForm from './QuizzForm.jsx';
 import ShowResult from './ShowResult.jsx';
 import ShowError from './ShowError.jsx';
 import Question from './Question.jsx';
-import { set } from '../../node_modules/zod/v4/classic/schemas';
+import Timer from './Timer.jsx'
 
 
 function Home({ }) {
@@ -14,6 +14,8 @@ function Home({ }) {
   const [showResult, setShowResult] = useState(false);
   const [quizStarted, setQuizStarted] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [timer, setTimer] = useState(15);
 
   const onStartQuiz = (settings) => {
     setLoading(true);
@@ -29,16 +31,18 @@ function Home({ }) {
             question: q.question,
             correct_answer: q.correct_answer,
             incorrect_answers: q.incorrect_answers,
-            category: q.category,
-            difficulty: q.difficulty,
             allAnswers: [q.correct_answer, ...q.incorrect_answers].sort(() => Math.random() - 0.5)
           }));
 
           setQuestions(preparedQuestions);
+        } else {
+          setShowError(true);
+          setErrorMessage('Un problème est survenu lors de la récupération des questions. Veuillez réessayer.');
         }
       })
       .catch((error) => {
         setShowError(true);
+        setErrorMessage(error.message);
         console.error('Erreur lors du chargement des questions:', error);
       })
       .finally(() => {
@@ -52,6 +56,7 @@ function Home({ }) {
     }
 
     const nextQuestion = currentQuestion + 1;
+    setTimer(15);
     if (nextQuestion < questions.length) {
       setCurrentQuestion(nextQuestion);
     } else {
@@ -89,16 +94,18 @@ function Home({ }) {
       ) : showError ? (
         <ShowError
           restartQuiz={restartQuiz}
+          errorMessage={errorMessage}
         />
-      ) : (
+      ) : questions.length > 0 ? (
         <Question
           questionText={questions[currentQuestion].question}
           currentQuestionNumber={currentQuestion + 1}
           totalQuestions={questions.length}
           allAnswers={questions[currentQuestion].allAnswers}
+          timer={timer}
           onAnswerClick={handleAnswerClick}
         />
-      )}
+      ) : null}
     </div>
   )
 }

@@ -1,8 +1,13 @@
-function Question({ questionText, currentQuestionNumber, totalQuestions, allAnswers, onAnswerClick }) {
+import Timer from './Timer.jsx'
+
+function Question({ questionText, currentQuestionNumber, totalQuestions, allAnswers, onAnswerClick, timer }) {
   return (
     <div className="question-container">
       <div className="question-number">
         Question {currentQuestionNumber}/{totalQuestions}
+      </div>
+      <div>
+        <Timer duration={timer} onTimeUp={() => onAnswerClick(null)} /> 
       </div>
       <h2 className="question-text">
         {questionText}
