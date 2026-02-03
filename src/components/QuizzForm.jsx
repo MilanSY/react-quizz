@@ -8,21 +8,21 @@ function QuizForm({ onStartQuiz }) {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-    const loadCategories = async () => {
-        try {
-        const response = await fetch('https://opentdb.com/api_category.php');
-        const data = await response.json();
-        
-        
-        setCategories(data.trivia_categories.map(cat => ({
-            id: cat.id.toString(),
-            theme: cat.name
-        })));
-        } catch (error) {
-        console.error('Erreur lors du chargement des catégories:', error);
-        } finally {
-        setLoadingCategories(false);
-        }
+    const loadCategories = () => {
+        fetch('https://opentdb.com/api_category.php')
+        .then(response => response.json())
+        .then(data => {
+            setCategories(data.trivia_categories.map(cat => ({
+                id: cat.id.toString(),
+                theme: cat.name
+            })));
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des catégories:', error);
+        })
+        .finally(() => {
+            setLoadingCategories(false);
+        });
     }
 
     loadCategories();
