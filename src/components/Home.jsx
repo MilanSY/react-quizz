@@ -70,6 +70,8 @@ function Home({ }) {
     setCurrentQuestion(0);
     setScore(0);
     setShowResult(false);
+    setShowError(false);
+    setErrorMessage('');
     setQuizStarted(false);
   };
 
