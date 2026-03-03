@@ -13,8 +13,8 @@ function Question({ questionText, currentQuestionNumber, totalQuestions, allAnsw
         {questionText}
       </h2>
       <div className="answers-container">
-        {allAnswers.map((answer, index) => (
-          <button key={index} onClick={() => onAnswerClick(answer)}>
+        {allAnswers.map((answer) => (
+          <button onClick={() => onAnswerClick(answer)}>
             {answer}
           </button>
         ))}
