@@ -20,7 +20,7 @@ function Question({ questionText, currentQuestionNumber, totalQuestions, allAnsw
         ))}
       </div>
     </div>
-  )
+  ) 
 }
 
 export default Question
